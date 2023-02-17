@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Ninja/Core/Helper/Color.dart';
 import 'package:Ninja/Core/Helper/Common_Var.dart';
+import 'package:Ninja/Feature/Profile/field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
 import '../../Core/Common_Widget/Custom_Text.dart';
+import '../../Core/Common_Widget/googletext.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -39,32 +41,55 @@ class Profile extends StatelessWidget {
         ],
       ),
       backgroundColor: appColor.mainColor,
-      body: Column(children: [
-        SizedBox(
-          height: 25.w,
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-            height: 120.h,
-            child: Stack(children: [
-              CircleAvatar(
-                radius: 70,
-                backgroundImage: AssetImage('images/bat.png'),
-              ),
-              Positioned(
-                top: 90.h,
-                left: 44.w,
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: appColor.grey,
-                  child: Icon(Icons.camera_alt_outlined),
-                ),
-              )
-            ]),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10),
+        child: Column(children: [
+          SizedBox(
+            height: 25.w,
           ),
-        )
-      ]),
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              height: 150.h,
+              child: Stack(children: [
+                CircleAvatar(
+                  radius: 70.r,
+                  backgroundImage: AssetImage('images/bat.png'),
+                ),
+                Positioned(
+                  top: 110.h,
+                  left: 56.w,
+                  child: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: appColor.grey,
+                    child: Icon(Icons.camera_alt_outlined),
+                  ),
+                )
+              ]),
+            ),
+          ),
+          fixHeight,
+          GoogleText(
+            text: "Afaq Zahir",
+            color: appColor.white,
+          ),
+          fixHeight,
+          Field(
+            data: "Afaq Zahir",
+            type: "Full Name",
+          ),
+          fixHeight,
+          Field(
+            data: "AfaaZahir007@gmail.com",
+            type: "Email",
+          ),
+          fixHeight,
+          Field(
+            data: "******",
+            type: "Password",
+          )
+        ]),
+      ),
     );
   }
 }

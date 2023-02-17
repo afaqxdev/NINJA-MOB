@@ -44,3 +44,40 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CustomButton1 extends StatelessWidget {
+  CustomButton1({
+    required this.color,
+    required this.onPressed,
+    this.textcolor,
+    this.textsize,
+    this.width,
+    this.height,
+    this.widget,
+    Key? key,
+  }) : super(key: key);
+
+  final Color color;
+  final VoidCallback onPressed;
+  final Color? textcolor;
+  final double? textsize;
+  final double? width;
+  final double? height;
+  final Widget? widget;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width ?? 250.w,
+      height: height,
+      child: MaterialButton(
+        height: 40.h,
+        minWidth: double.infinity,
+        onPressed: onPressed,
+        color: color,
+        child: widget,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.r)),
+      ),
+    );
+  }
+}

@@ -1,14 +1,16 @@
+import 'package:Ninja/Core/Firebase/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import '../../Core/Common_Widget/Custom_Text.dart';
 import '../../Core/Common_Widget/custom-button.dart';
 import '../../Core/Common_Widget/custom_textfield.dart';
 import '../../Core/Helper/Color.dart';
 import '../../Core/Helper/Common_Var.dart';
-import '../../Core/Routes/routesName.dart';
 
 class Recovery extends StatefulWidget {
-  const Recovery({super.key});
+  Recovery({super.key});
 
   @override
   State<Recovery> createState() => _RecoveryState();
@@ -16,8 +18,12 @@ class Recovery extends StatefulWidget {
 
 class _RecoveryState extends State<Recovery> {
   AppColor appColor = AppColor();
+
+  late String restpassword;
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<Authcontroler>(context, listen: false);
     return Scaffold(
       backgroundColor: appColor.mainColor,
       body: Padding(
@@ -74,18 +80,25 @@ class _RecoveryState extends State<Recovery> {
           fixHeight,
           CustomTextfield(
             hintext: "Email",
+            onchanged: (value) {
+              restpassword = value;
+            },
           ),
           Height,
           Height,
           SizedBox(
               height: 45.h,
               width: 300.w,
-              child: CustomButton(
-                buttonname: 'Continue',
-                color: appColor.buttonColor,
-                textcolor: Colors.white,
-                onPressed: () {
-                  Navigator.pushNamed(context, RoutesName.SingIN);
+              child: Consumer<Authcontroler>(
+                builder: (context, value, child) {
+                  return CustomButton(
+                    buttonname: 'Continue',
+                    color: appColor.buttonColor,
+                    textcolor: Colors.white,
+                    onPressed: () {
+                      value.passwordRest(remail: restpassword);
+                    },
+                  );
                 },
               )),
         ]),

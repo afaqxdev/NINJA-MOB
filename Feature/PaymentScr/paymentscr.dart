@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Ninja/Core/Common_Widget/Custom_Text.dart';
 import 'package:Ninja/Core/Helper/Color.dart';
 import 'package:Ninja/Core/Helper/Common_Var.dart';
@@ -7,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import '../../Core/Common_Widget/custom-button.dart';
+import '../../Core/Common_Widget/googletext.dart';
 import '../BottomNAv/bottomNav.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -168,26 +171,6 @@ class PaymentScreen extends StatelessWidget {
             )
           ],
         ));
-  }
-}
-
-class GoogleText extends StatelessWidget {
-  GoogleText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  AppColor appColor = AppColor();
-  String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text,
-        style: GoogleFonts.abel(
-            textStyle: TextStyle(
-          color: appColor.black,
-          fontSize: 19.sp,
-        )));
   }
 }
 

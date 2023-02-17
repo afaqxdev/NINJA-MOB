@@ -1,5 +1,7 @@
+import 'package:Ninja/Core/Firebase/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../Core/Common_Widget/Custom_Text.dart';
 import '../../Core/Common_Widget/Image_Button.dart';
 import '../../Core/Common_Widget/custom-button.dart';
@@ -16,9 +18,15 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  late String Email, password;
   AppColor appColor = AppColor();
+  final _field = GlobalKey<FormState>();
+
+  ValueNotifier<bool> toogle = ValueNotifier<bool>(false);
   @override
   Widget build(BuildContext context) {
+    Provider.of<Authcontroler>(context, listen: false);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: appColor.mainColor,
@@ -70,6 +78,15 @@ class _SignInState extends State<SignIn> {
           fixHeight,
           CustomTextfield(
             hintext: "Email",
+            vlid: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter Email';
+              }
+              return null;
+            },
+            onchanged: (value) {
+              Email = value;
+            },
           ),
           Height,
           Height,
@@ -83,9 +100,32 @@ class _SignInState extends State<SignIn> {
             ),
           ),
           fixHeight,
-          CustomTextfield(
-            hintext: "Password",
-            passicon: Icon(Icons.remove_red_eye_outlined),
+          ValueListenableBuilder(
+            valueListenable: toogle,
+            builder: (context, value, child) {
+              return CustomTextfield(
+                  vlid: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter Email';
+                    }
+                    return null;
+                  },
+                  hintext: "Password",
+                  onchanged: (value) {
+                    password = value;
+                  },
+                  showtext: toogle.value,
+                  passicon: InkWell(
+                    onTap: () {
+                      toogle.value = !toogle.value;
+                    },
+                    child: Icon(
+                        toogle.value
+                            ? Icons.visibility_off_sharp
+                            : Icons.visibility_sharp,
+                        color: appColor.grey),
+                  ));
+            },
           ),
           fixHeight,
           InkWell(
@@ -105,18 +145,22 @@ class _SignInState extends State<SignIn> {
           Height,
           Height,
           SizedBox(
-            height: 40.h,
-            width: 270.w,
-            child: CustomButton(
-              buttonname: "Sign In",
-              color: appColor.buttonColor,
-              textcolor: appColor.white,
-              textsize: 17.sp,
-              onPressed: () {
-                Navigator.pushNamed(context, RoutesName.BottomNav);
-              },
-            ),
-          ),
+              height: 40.h,
+              width: 270.w,
+              child: Consumer<Authcontroler>(
+                builder: (context, value, child) {
+                  return CustomButton(
+                      buttonname: "Sign In",
+                      color: appColor.buttonColor,
+                      textcolor: appColor.white,
+                      textsize: 17.sp,
+                      onPressed: () async {
+                        if (_field.currentState!.validate()) {
+                          await value.SignIn(email: Email, password: password);
+                        }
+                      });
+                },
+              )),
           Height,
           SizedBox(
             height: 45.h,

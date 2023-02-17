@@ -99,6 +99,26 @@ class _AppleScrState extends State<AppleScr> {
                                 Hero(
                                   tag: Key(snapshot.data!.apple![index].image
                                       .toString()),
+                                  flightShuttleBuilder: (flightContext,
+                                      animation,
+                                      flightDirection,
+                                      fromHeroContext,
+                                      toHeroContext) {
+                                    switch (flightDirection) {
+                                      case HeroFlightDirection.push:
+                                        return ScaleTransition(
+                                            scale: animation.drive(
+                                                Tween<double>(
+                                                        begin: 0.0, end: 1.0)
+                                                    .chain(CurveTween(
+                                                        curve: Curves
+                                                            .fastOutSlowIn))),
+                                            child: toHeroContext.widget);
+
+                                      case HeroFlightDirection.pop:
+                                        return fromHeroContext.widget;
+                                    }
+                                  },
                                   child: Image.network(
                                       snapshot.data!.apple![index].image
                                           .toString(),
@@ -262,10 +282,33 @@ class _AppleScrState extends State<AppleScr> {
                                 Width,
                                 Container(
                                   width: 120.w,
-                                  child: Image.network(
-                                      // "${snapshot.data!.apple![17].image.toString()}",
-                                      "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg",
-                                      scale: 4),
+                                  child: Hero(
+                                    tag: Key(snapshot.data!.apple![17].image
+                                        .toString()),
+                                    flightShuttleBuilder: (flightContext,
+                                        animation,
+                                        flightDirection,
+                                        fromHeroContext,
+                                        toHeroContext) {
+                                      switch (flightDirection) {
+                                        case HeroFlightDirection.push:
+                                          return ScaleTransition(
+                                              scale: animation.drive(
+                                                  Tween<double>(
+                                                          begin: 0.0, end: 1.0)
+                                                      .chain(CurveTween(
+                                                          curve: Curves
+                                                              .fastOutSlowIn))),
+                                              child: toHeroContext.widget);
+
+                                        case HeroFlightDirection.pop:
+                                          return fromHeroContext.widget;
+                                      }
+                                    },
+                                    child: Image.network(
+                                        "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-14-pro-max-1.jpg",
+                                        scale: 4),
+                                  ),
                                 ),
                               ])
                             ]))));

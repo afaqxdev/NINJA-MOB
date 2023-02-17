@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Ninja/Core/BackEnd/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,7 +86,7 @@ class _XiaomiScrState extends State<XiaomiScr> {
                               });
                         },
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          padding: const EdgeInsets.all(8.0),
                           child: Container(
                             width: 150.w,
                             decoration: BoxDecoration(
@@ -95,10 +97,35 @@ class _XiaomiScrState extends State<XiaomiScr> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.network(
-                                      snapshot.data["xiaomi"][index]['image']
-                                          .toString(),
-                                      scale: 5),
+                                  Hero(
+                                    tag: Key(snapshot.data['xiaomi'][index]
+                                            ['image']
+                                        .toString()),
+                                    flightShuttleBuilder: (flightContext,
+                                        animation,
+                                        flightDirection,
+                                        fromHeroContext,
+                                        toHeroContext) {
+                                      switch (flightDirection) {
+                                        case HeroFlightDirection.push:
+                                          return ScaleTransition(
+                                              scale: animation.drive(
+                                                  Tween<double>(
+                                                          begin: 0.0, end: 1.0)
+                                                      .chain(CurveTween(
+                                                          curve: Curves
+                                                              .fastOutSlowIn))),
+                                              child: toHeroContext.widget);
+
+                                        case HeroFlightDirection.pop:
+                                          return fromHeroContext.widget;
+                                      }
+                                    },
+                                    child: Image.network(
+                                        snapshot.data["xiaomi"][index]['image']
+                                            .toString(),
+                                        scale: 5),
+                                  ),
                                   fixHeight,
                                   CustomText(
                                     name: snapshot.data["xiaomi"][index]['name']
@@ -221,7 +248,7 @@ class _XiaomiScrState extends State<XiaomiScr> {
                       },
                       //
                       child: Container(
-                          height: 160.h,
+                          height: 140.h,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               color: appColor.white,
@@ -233,7 +260,7 @@ class _XiaomiScrState extends State<XiaomiScr> {
                                   width: 160.w,
                                   child: Padding(
                                     padding: EdgeInsets.only(
-                                        left: 10.w, top: 10.h, right: 10.w),
+                                        left: 10.w, top: 17.h, right: 13.w),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -267,9 +294,33 @@ class _XiaomiScrState extends State<XiaomiScr> {
                             width,
                             Row(
                               children: [
-                                Image.network(
-                                    "${snapshot.data['xiaomi'][15]['image'].toString()}",
-                                    scale: 4),
+                                Hero(
+                                  tag: Key(snapshot.data['xiaomi'][15]['image']
+                                      .toString()),
+                                  flightShuttleBuilder: (flightContext,
+                                      animation,
+                                      flightDirection,
+                                      fromHeroContext,
+                                      toHeroContext) {
+                                    switch (flightDirection) {
+                                      case HeroFlightDirection.push:
+                                        return ScaleTransition(
+                                            scale: animation.drive(
+                                                Tween<double>(
+                                                        begin: 0.0, end: 1.0)
+                                                    .chain(CurveTween(
+                                                        curve: Curves
+                                                            .fastOutSlowIn))),
+                                            child: toHeroContext.widget);
+
+                                      case HeroFlightDirection.pop:
+                                        return fromHeroContext.widget;
+                                    }
+                                  },
+                                  child: Image.network(
+                                      "${snapshot.data['xiaomi'][15]['image'].toString()}",
+                                      scale: 4),
+                                ),
                               ],
                             )
                           ])));

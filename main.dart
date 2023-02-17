@@ -1,5 +1,7 @@
 import 'package:Ninja/Core/BackEnd/cart_provider.dart';
 import 'package:Ninja/Core/BackEnd/favorite.dart';
+import 'package:Ninja/Core/Firebase/auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,9 @@ import 'Core/Routes/routesName.dart';
 
 void main() async {
   runApp(const MyApp());
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   var directory = await getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.registerAdapter(ModelHiveAdapter());
@@ -30,7 +34,8 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => LoadBackEnd()),
           ChangeNotifierProvider(create: (context) => CartProvider()),
-          ChangeNotifierProvider(create: (context) => FavoriteProvider())
+          ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+          ChangeNotifierProvider(create: (context) => Authcontroler())
         ],
         child: ScreenUtilInit(
             builder: ((context, child) => GetMaterialApp(

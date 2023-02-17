@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Ninja/Core/BackEnd/cart_provider.dart';
 import 'package:Ninja/Core/Common_Widget/Custom_Text.dart';
 import 'package:Ninja/Core/Common_Widget/custom-button.dart';

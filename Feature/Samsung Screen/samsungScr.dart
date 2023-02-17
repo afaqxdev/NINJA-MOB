@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, unused_local_variable, unused_import
+
 import 'package:Ninja/Core/BackEnd/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,18 +92,43 @@ class _SamsungScrState extends State<SamsungScr> {
                               });
                         },
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          padding: const EdgeInsets.all(8.0),
                           child: Container(
                             width: 150.w,
                             decoration: BoxDecoration(
                                 color: appColor.white,
                                 borderRadius: BorderRadius.circular(20.r)),
                             child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.network("${image}", scale: 5),
+                                  Hero(
+                                      tag: Key(snapshot
+                                          .data!.samsung![index].image
+                                          .toString()),
+                                      flightShuttleBuilder: (flightContext,
+                                          animation,
+                                          flightDirection,
+                                          fromHeroContext,
+                                          toHeroContext) {
+                                        switch (flightDirection) {
+                                          case HeroFlightDirection.push:
+                                            return ScaleTransition(
+                                                scale: animation.drive(Tween<
+                                                            double>(
+                                                        begin: 0.0, end: 1.0)
+                                                    .chain(CurveTween(
+                                                        curve: Curves
+                                                            .fastOutSlowIn))),
+                                                child: toHeroContext.widget);
+
+                                          case HeroFlightDirection.pop:
+                                            return fromHeroContext.widget;
+                                        }
+                                      },
+                                      child:
+                                          Image.network("${image}", scale: 5)),
                                   fixHeight,
                                   CustomText(
                                     name: name,
@@ -188,34 +215,34 @@ class _SamsungScrState extends State<SamsungScr> {
                       Navigator.pushNamed(context, RoutesName.MobDetail,
                           arguments: {
                             'resolution':
-                                '${snapshot.data!.samsung![17].resolution.toString()}',
+                                '${snapshot.data!.samsung![15].resolution.toString()}',
                             'Image':
-                                '${snapshot.data!.samsung![17].image.toString()}',
+                                '${snapshot.data!.samsung![15].image.toString()}',
                             'ram':
-                                '${snapshot.data!.samsung![17].ram.toString()}',
-                            'price': '${snapshot.data!.samsung![17].price}',
+                                '${snapshot.data!.samsung![15].ram.toString()}',
+                            'price': '${snapshot.data!.samsung![15].price}',
                             'id':
-                                '${snapshot.data!.samsung![17].id.toString()}',
+                                '${snapshot.data!.samsung![15].id.toString()}',
                             'name':
-                                '${snapshot.data!.samsung![17].name.toString()}',
+                                '${snapshot.data!.samsung![15].name.toString()}',
                             'bat':
-                                '${snapshot.data!.samsung![17].battery.toString()}',
+                                '${snapshot.data!.samsung![15].battery.toString()}',
                             'cam':
-                                '${snapshot.data!.samsung![17].cammera.toString()}',
+                                '${snapshot.data!.samsung![15].cammera.toString()}',
                             'sce':
-                                '${snapshot.data!.samsung![17].sensors.toString()}',
+                                '${snapshot.data!.samsung![15].sensors.toString()}',
                             'os':
-                                '${snapshot.data!.samsung![17].oS.toString()}',
+                                '${snapshot.data!.samsung![15].oS.toString()}',
                             'cal':
-                                '${snapshot.data!.samsung![17].released.toString()}',
+                                '${snapshot.data!.samsung![15].released.toString()}',
                             'stor':
-                                '${snapshot.data!.samsung![17].memory.toString()}',
+                                '${snapshot.data!.samsung![15].memory.toString()}',
                             'pro':
-                                '${snapshot.data!.samsung![17].chipset.toString()}',
+                                '${snapshot.data!.samsung![15].chipset.toString()}',
                           });
                     },
                     child: Container(
-                      height: 160.h,
+                      height: 140.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: appColor.white,
@@ -228,7 +255,7 @@ class _SamsungScrState extends State<SamsungScr> {
                                 width: 160.w,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      left: 10.w, top: 10.h, right: 10.w),
+                                      left: 10.w, top: 17.h, right: 13.w),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -259,9 +286,32 @@ class _SamsungScrState extends State<SamsungScr> {
                           ),
                           Row(
                             children: [
-                              Image.network(
-                                  "${snapshot.data!.samsung![15].image.toString()}",
-                                  scale: 4),
+                              Hero(
+                                tag: Key(snapshot.data!.samsung![15].image
+                                    .toString()),
+                                flightShuttleBuilder: (flightContext,
+                                    animation,
+                                    flightDirection,
+                                    fromHeroContext,
+                                    toHeroContext) {
+                                  switch (flightDirection) {
+                                    case HeroFlightDirection.push:
+                                      return ScaleTransition(
+                                          scale: animation.drive(Tween<double>(
+                                                  begin: 0.0, end: 1.0)
+                                              .chain(CurveTween(
+                                                  curve:
+                                                      Curves.fastOutSlowIn))),
+                                          child: toHeroContext.widget);
+
+                                    case HeroFlightDirection.pop:
+                                      return fromHeroContext.widget;
+                                  }
+                                },
+                                child: Image.network(
+                                    "${snapshot.data!.samsung![15].image.toString()}",
+                                    scale: 4),
+                              ),
                             ],
                           ),
                         ],

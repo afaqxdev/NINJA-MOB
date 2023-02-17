@@ -13,6 +13,5 @@ class RoutesName {
   static const MainScreen = "MainScrren";
   static const MobDetail = "mobdetail";
   static const PaymentScr = "PaymentScr";
-  static const Sidemenu = "sidemenu";
   static const Profile = "profile";
 }

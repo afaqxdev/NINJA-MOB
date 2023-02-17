@@ -1,3 +1,4 @@
+import 'package:Ninja/Feature/Draw/drawer.dart';
 import 'package:Ninja/Feature/Profile/profile.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import '../../Core/Helper/Color.dart';
 import '../Favourite/favourite.dart';
 import '../Landing_Screen/Landing.dart';
 import '../MainScreen/MianScreen.dart';
-import '../Samsung Screen/samsungScr.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -32,11 +32,6 @@ class _BottomNavState extends State<BottomNav> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   AppColor appColor = AppColor();

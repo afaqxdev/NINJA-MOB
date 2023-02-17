@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:Ninja/Core/BackEnd/cart_provider.dart';
 import 'package:Ninja/Core/HiveDB/boxes.dart';
 import 'package:Ninja/Core/HiveDB/model.dart';
