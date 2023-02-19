@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Helper/Color.dart';
 
+// ignore: must_be_immutable
 class BackButton extends StatelessWidget {
   BackButton({
     Key? key,

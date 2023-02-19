@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => LoadBackEnd()),
           ChangeNotifierProvider(create: (context) => CartProvider()),
           ChangeNotifierProvider(create: (context) => FavoriteProvider()),
-          ChangeNotifierProvider(create: (context) => Authcontroler())
+          ChangeNotifierProvider(create: (context) => Authcontroler()),
         ],
         child: ScreenUtilInit(
             builder: ((context, child) => GetMaterialApp(

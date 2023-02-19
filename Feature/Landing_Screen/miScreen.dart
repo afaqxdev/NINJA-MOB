@@ -4,10 +4,7 @@ import '../../Core/Common_Widget/Custom_Text.dart';
 import '../../Core/Helper/Color.dart';
 import '../../Core/Helper/Common_Var.dart';
 
-import '../../../Core/Common_Widget/Custom_Text.dart';
-
-int index1 = 4;
-
+// ignore: must_be_immutable
 class MiScreen extends StatelessWidget {
   MiScreen({super.key});
   AppColor appcolor = AppColor();

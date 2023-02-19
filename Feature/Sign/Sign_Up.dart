@@ -139,20 +139,24 @@ class _SignUpState extends State<SignUp> {
                 )),
             Height,
             SizedBox(
-              height: 40.h,
-              width: 270.w,
-              child: imageButton(
-                widget: Image.asset(
-                  'images/google.png',
-                  scale: 3,
-                ),
-                buttonname: "Sign In with Google",
-                colors: appColor.white,
-                color: appColor.buttonColor,
-                textsize: 17.sp,
-                onPressed: () {},
-              ),
-            ),
+                height: 40.h,
+                width: 270.w,
+                child:
+                    Consumer<Authcontroler>(builder: (context, value, child) {
+                  return imageButton(
+                    widget: Image.asset(
+                      'images/google.png',
+                      scale: 3,
+                    ),
+                    buttonname: "Sign Up with Google",
+                    colors: appColor.white,
+                    color: appColor.buttonColor,
+                    textsize: 17.sp,
+                    onPressed: () {
+                      value.signInWithGoogle();
+                    },
+                  );
+                })),
             Container(
               margin: EdgeInsets.only(top: 80.h),
               child:

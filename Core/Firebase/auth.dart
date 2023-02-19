@@ -1,10 +1,10 @@
 import 'package:Ninja/Feature/BottomNAv/bottomNav.dart';
-import 'package:Ninja/Feature/Sign/Recovery.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../Dialogue/dialog.dart';
 import '../LocalDB/localdb.dart';
@@ -14,7 +14,35 @@ var DB = FirebaseFirestore.instance;
 localdatabase ldb = localdatabase();
 
 class Authcontroler extends ChangeNotifier {
-  Future<void> GoogleSignIn() async {}
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  bool _Goooglecheck = false;
+  bool get Googlecheck => _Goooglecheck;
+
+  Future<UserCredential?> signInWithGoogle() async {
+    CommonDialog.showDialog();
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      ldb.setuserData(
+          email: googleAuth.accessToken, userid: googleAuth.idToken);
+      _Goooglecheck = true;
+      notifyListeners();
+      return await _auth.signInWithCredential(credential);
+    } catch (e) {
+      print(e);
+    }
+    CommonDialog.hideLoading();
+    Get.to(BottomNav());
+    return null;
+  }
+
   Future<void> signup({name, email, password, images}) async {
     try {
       CommonDialog.showDialog();
@@ -36,7 +64,8 @@ class Authcontroler extends ChangeNotifier {
         });
         ldb.setuserData(
             userid: userCredential.user!.uid.toString(), email: email);
-
+        _Goooglecheck = false;
+        notifyListeners();
         Get.offAll(SignIn());
       } catch (e) {
         print("inside the catch");
@@ -70,6 +99,7 @@ class Authcontroler extends ChangeNotifier {
           email: email!.trim(), password: password!);
       ldb.setuserData(
           userid: userCredential.user!.uid.toString(), email: email);
+      _Goooglecheck = false;
 
       Get.offAll(BottomNav());
     } on FirebaseAuthException catch (e) {
@@ -86,8 +116,9 @@ class Authcontroler extends ChangeNotifier {
 
   Future<void> passwordRest({String? remail}) async {
     try {
+      CommonDialog.showDialog();
       await FirebaseAuth.instance.sendPasswordResetEmail(email: remail!.trim());
-
+      CommonDialog.hideLoading();
       Get.defaultDialog(
         title: "Password Reset Email Sent",
         middleText:
@@ -96,21 +127,28 @@ class Authcontroler extends ChangeNotifier {
           Get.off(SignIn());
         },
       );
-      Get.offAll(SignIn());
     } on FirebaseAuthException catch (e) {
       CommonDialog.showErrorDialog(description: "$e");
     }
+    CommonDialog.hideLoading();
+  }
+
+  Future<void> getdata(String name, String image) async {
+    final firestore = FirebaseAuth.instance.currentUser;
+    final user = await FirebaseFirestore.instance
+        .collection("App_User_credentials")
+        .doc(firestore!.uid)
+        .get();
+    print("this is the result $name");
+    image = user.data()!["image"];
+    name = user.data()!["firstname"];
+    notifyListeners();
   }
 
   Future<void> Update(
     String DataName,
     dynamic controller,
   ) async {
-    final firestore = FirebaseAuth.instance.currentUser;
-    final user = await FirebaseFirestore.instance
-        .collection("App_User_credentials")
-        .doc(firestore!.uid)
-        .update({DataName: controller});
     Get.back();
   }
 }

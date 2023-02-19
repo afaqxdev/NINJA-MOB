@@ -1,3 +1,4 @@
+import 'package:Ninja/Core/Firebase/auth.dart';
 import 'package:Ninja/Core/Routes/routesName.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
@@ -33,12 +34,23 @@ class _MainScreenState extends State<MainScreen> {
     "images/xiaomi1.png",
   ];
   AppColor appColor = AppColor();
+  late String Name;
+  late String image;
+  @override
+  void initState() {
+    Provider.value(value: Authcontroler().getdata(Name, image));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LoadBackEnd>(context, listen: false);
     print('Main page build');
     return Scaffold(
-      drawer: Dr(),
+      drawer: CustomDrawer(
+        Name: Name,
+        image: "images/avatar.png",
+      ),
       appBar: AppBar(
         title: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

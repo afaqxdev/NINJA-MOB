@@ -20,13 +20,11 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   late String Email, password;
   AppColor appColor = AppColor();
-  final _field = GlobalKey<FormState>();
 
   ValueNotifier<bool> toogle = ValueNotifier<bool>(false);
   @override
   Widget build(BuildContext context) {
     Provider.of<Authcontroler>(context, listen: false);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: appColor.mainColor,
@@ -78,12 +76,6 @@ class _SignInState extends State<SignIn> {
           fixHeight,
           CustomTextfield(
             hintext: "Email",
-            vlid: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter Email';
-              }
-              return null;
-            },
             onchanged: (value) {
               Email = value;
             },
@@ -104,12 +96,6 @@ class _SignInState extends State<SignIn> {
             valueListenable: toogle,
             builder: (context, value, child) {
               return CustomTextfield(
-                  vlid: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Email';
-                    }
-                    return null;
-                  },
                   hintext: "Password",
                   onchanged: (value) {
                     password = value;
@@ -155,28 +141,31 @@ class _SignInState extends State<SignIn> {
                       textcolor: appColor.white,
                       textsize: 17.sp,
                       onPressed: () async {
-                        if (_field.currentState!.validate()) {
-                          await value.SignIn(email: Email, password: password);
-                        }
+                        await value.SignIn(email: Email, password: password);
                       });
                 },
               )),
           Height,
           SizedBox(
-            height: 45.h,
-            width: 270.w,
-            child: imageButton(
-              widget: Image.asset(
-                'images/google.png',
-                scale: 3,
-              ),
-              colors: appColor.white,
-              buttonname: "Sign In with Google",
-              color: appColor.buttonColor,
-              textsize: 17.sp,
-              onPressed: () {},
-            ),
-          ),
+              height: 45.h,
+              width: 270.w,
+              child: Consumer<Authcontroler>(
+                builder: (context, value, child) {
+                  return imageButton(
+                    widget: Image.asset(
+                      'images/google.png',
+                      scale: 3,
+                    ),
+                    colors: appColor.white,
+                    buttonname: "Sign In with Google",
+                    color: appColor.buttonColor,
+                    textsize: 17.sp,
+                    onPressed: () {
+                      value.signInWithGoogle();
+                    },
+                  );
+                },
+              )),
           Container(
             margin: EdgeInsets.only(top: 80.h),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [

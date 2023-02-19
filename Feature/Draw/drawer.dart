@@ -1,21 +1,34 @@
-import 'package:Ninja/Core/Routes/routesName.dart';
+import 'package:Ninja/Core/Firebase/auth.dart';
+import 'package:Ninja/Feature/Sign/Sign_In.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 import '../../Core/Common_Widget/Custom_Text.dart';
 import '../../Core/Helper/Color.dart';
 import '../../Core/Helper/Common_Var.dart';
 
-class Dr extends StatefulWidget {
-  const Dr({super.key});
+// ignore: must_be_immutable
+class CustomDrawer extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  @override
-  State<Dr> createState() => _DrState();
-}
+  Future<void> _signOut() async {
+    await _auth.signOut();
+    await _googleSignIn.signOut();
+  }
 
-class _DrState extends State<Dr> {
-  @override
+  Future<void> _fsignOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  CustomDrawer({required this.Name, required this.image, super.key});
+
   AppColor appcolor = AppColor();
+  final String Name;
+  final String image;
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Drawer(
@@ -32,6 +45,9 @@ class _DrState extends State<Dr> {
                       alignment: Alignment.topLeft,
                       child: CircleAvatar(
                         radius: 50.r,
+                        backgroundImage: AssetImage(
+                          image,
+                        ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(200),
                         ),
@@ -50,9 +66,7 @@ class _DrState extends State<Dr> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: CustomText(
-                          name: "Afaq Zahir",
-                          size: 23.sp,
-                          color: appcolor.white),
+                          name: Name, size: 23.sp, color: appcolor.white),
                     ),
                   ],
                 ),
@@ -148,22 +162,38 @@ class _DrState extends State<Dr> {
               ),
             ),
             Height,
-            InkWell(
-              onTap: () {
-                // FirebaseAuth.instance.signOut();
-                // Get.offAll(sign_in());
+            Consumer<Authcontroler>(
+              builder: (context, value, child) {
+                return ListTile(
+                  onTap: () {
+                    if (value.Googlecheck != true) {
+                      _signOut().then((value) {
+                        Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new SignIn()));
+                      });
+                    } else {
+                      _fsignOut().then((value) => Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new SignIn())));
+                    }
+                    print(value.Googlecheck);
+                  },
+                  iconColor: appcolor.white,
+                  tileColor: appcolor.white.withOpacity(0.5),
+                  leading: Icon(Icons.logout_outlined),
+                  title: CustomText(
+                    name: "Logout",
+                    size: 16.sp,
+                    color: appcolor.white,
+                  ),
+                );
               },
-              child: ListTile(
-                iconColor: appcolor.white,
-                tileColor: appcolor.white.withOpacity(0.5),
-                leading: Icon(Icons.logout_outlined),
-                title: CustomText(
-                  name: "Logout",
-                  size: 16.sp,
-                  color: appcolor.white,
-                ),
-              ),
-            ),
+            )
           ]),
         ),
       ),

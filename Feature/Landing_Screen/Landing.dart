@@ -4,6 +4,7 @@ import '../../Core/Common_Widget/Custom_Text.dart';
 import '../../Core/Helper/Color.dart';
 import '../../Core/Helper/Common_Var.dart';
 
+// ignore: must_be_immutable
 class LandingScreen extends StatelessWidget {
   LandingScreen({super.key});
   AppColor appcolor = AppColor();

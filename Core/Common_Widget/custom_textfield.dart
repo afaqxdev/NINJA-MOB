@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../Helper/Color.dart';
 
+// ignore: must_be_immutable
 class CustomTextfield extends StatelessWidget {
   CustomTextfield({
     required this.hintext,

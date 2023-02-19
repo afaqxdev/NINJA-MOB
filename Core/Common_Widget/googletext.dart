@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../Helper/Color.dart';
 
+// ignore: must_be_immutable
 class GoogleText extends StatelessWidget {
   GoogleText({
     Key? key,

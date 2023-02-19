@@ -30,7 +30,7 @@ class _loaddState extends State<loadd> {
   AppColor appcolor = AppColor();
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LoadBackEnd>(context, listen: false);
+    Provider.of<LoadBackEnd>(context, listen: false);
     print("build again ");
     return Scaffold(
       backgroundColor: appcolor.mainColor,

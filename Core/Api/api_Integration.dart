@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:Ninja/Core/Api/model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class LocalJson {

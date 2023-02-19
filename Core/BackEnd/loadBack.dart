@@ -1,5 +1,4 @@
-import 'package:Ninja/Feature/Landing_Screen/miScreen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 class LoadBackEnd with ChangeNotifier {
   int SelectindexButton = 0;
